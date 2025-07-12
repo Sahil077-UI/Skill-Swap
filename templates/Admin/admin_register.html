@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head><title>Register Admin</title></head>
+<body>
+    <h2>Register New Admin</h2>
+    <form method="POST">
+        Username: <input type="text" name="username" required><br><br>
+        PIN: <input type="password" name="pin" required><br><br>
+        <input type="submit" value="Create Admin">
+    </form>
+    <br>
+    <a href="{{ url_for('admin_dashboard') }}">Back to Dashboard</a>
+</body>
+</html>

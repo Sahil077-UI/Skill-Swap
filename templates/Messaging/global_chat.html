@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Global Chat</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/messaging/global_chat.css') }}" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="main-body overflow-hidden">
+    <!-- Mobile Header -->
+    <header class="md:hidden flex justify-between items-center p-4 bg-tranparentz-50 w-full fixed top-0 left-0 right-0">
+        <button id="mobile-menu-toggle" class="focus:outline-none">
+            <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        </button>
+    </header>
+
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <div id="mobile-sidebar"
+            class="fixed inset-0 z-40 bg-white w-64 h-screen transform -translate-x-full transition-transform duration-300 ease-in-out md:relative md:translate-x-0 md:block">
+            <aside class="w-64 px-6 py-8 space-y-6 sidebar">
+                <div class="flex items-center space-x-2 text-2xl font-bold brand-text">
+                    <svg class="w-6 h-6 brand-icon" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 20l-6-6h4V6h4v8h4l-6 6z" />
+                    </svg>
+                    <span>SkillSync</span>
+                </div>
+
+                <nav class="space-y-4">
+                    <a href="{{ url_for('client_profile') }}" class="nav-link">
+                        <i data-lucide="home" class="inline w-4 h-4 mr-2"></i> Home
+                    </a>
+                    <a href="{{ url_for('client_info') }}" class="nav-link">
+                        <i data-lucide="info" class="inline w-4 h-4 mr-2"></i> Personal Info
+                    </a>
+                    <a href="{{ url_for('client_connections') }}" class="nav-link">
+                        <i data-lucide="users" class="inline w-4 h-4 mr-2"></i> Connections
+                    </a>
+                    <a href="{{ url_for('client_matches') }}" class="nav-link">
+                        <i data-lucide="link" class="inline w-4 h-4 mr-2"></i> Skill Matches
+                    </a>
+                    <a href="{{ url_for('client_requests') }}" class="nav-link">
+                        <i data-lucide="user-plus" class="inline w-4 h-4 mr-2"></i> Requests
+                    </a>
+                    <a href="{{ url_for('client_chat') }}" class="nav-link">
+                        <i data-lucide="message-square" class="inline w-4 h-4 mr-2"></i> Chats
+                    </a>
+                    <a href="{{ url_for('create_group') }}" class="nav-link">
+                        <i data-lucide="plus-square" class="inline w-4 h-4 mr-2"></i> Create Group
+                    </a>
+                    <a href="{{ url_for('global_chat') }}" class="nav-link active">
+                        <i data-lucide="globe" class="inline w-4 h-4 mr-2"></i> Community Chat
+                    </a>
+                </nav>
+            </aside>
+        </div>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-8 mt-16 md:mt-0 overflow-y-auto">
+            <div class="mb-8">
+                <h1 class="dashboard-title">Community Chat</h1>
+                <p class="dashboard-subtitle">Chat with the whole community</p>
+            </div>
+            <!-- Messages Area -->
+            <!-- Chat Display Section -->
+            <div class="section-box chat-box">
+                {% for msg in messages %}
+                <div class="message-box flex items-start gap-4">
+                    {% if msg.profile_photo %}
+                    <img src="{{ url_for('static', filename='uploads/profile_photos/' ~ msg.profile_photo) }}"
+                        alt="Photo" class="message-avatar">
+                    {% else %}
+                    <div class="initial-badge">
+                        {{ (msg.name | default('?') | string)[0] | upper }}
+                    </div>
+                    {% endif %}
+                    <div class="message-content">
+                        <div class="flex justify-between items-center">
+                            <p class="sender-name">{{ msg.sender_username }}</p>
+                            <p class="message-time">{{ msg.timestamp.strftime('%Y-%m-%d %H:%M') }}</p>
+                        </div>
+                        <p class="message-text mt-1">{{ msg.message }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Message Form -->
+            <form method="post" class="chat-form flex items-center gap-3 mt-4">
+                <input name="message" placeholder="Type your message..." class="flex-1 input-message" required />
+                <button type="submit" class="btn">Send</button>
+            </form>
+        </main>
+    </div>
+
+    <script>
+        lucide.createIcons();
+    </script>
+    <script src="{{ url_for('static', filename='js/messaging/global_chat.js') }}"></script>
+</body>
+
+</html>

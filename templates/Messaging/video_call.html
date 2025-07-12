@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Video Call</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/messaging/video_call.css') }}" />
+</head>
+
+<body class="bg-gray-900 text-white flex flex-col items-center justify-center min-h-screen">
+
+    <a href="{{ url_for('client_chat') }}"
+        class="absolute top-4 left-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
+        Back to Chat
+    </a>
+
+    <h1 class="text-3xl font-bold mb-6">Video Call</h1>
+
+    <div class="flex gap-4">
+        <video id="localVideo" autoplay muted class="w-64 h-48 border-2 border-green-400"></video>
+        <video id="remoteVideo" autoplay class="w-64 h-48 border-2 border-blue-400"></video>
+    </div>
+
+    <div class="mt-6 flex gap-4">
+        <button id="startCall" class="bg-green-500 px-4 py-2 rounded">Start Call</button>
+        <button id="shareScreen" class="bg-yellow-500 px-4 py-2 rounded">Share Screen</button>
+        <button id="muteAudio" class="bg-red-500 px-4 py-2 rounded">Mute</button>
+        <button id="endCall" class="bg-gray-700 px-4 py-2 rounded">End Call</button>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/messaging/video_call.js') }}"></script>
+    <script>
+        const currentUser = "{{ current_user }}";
+        const targetUser = "{{ target_user }}";
+    </script>
+
+</body>
+
+</html>

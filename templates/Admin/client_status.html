@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Active & Inactive Clients</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin/admin_dashboard.css') }}">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="admin-body flex">
+
+    <!-- Sidebar -->
+    <aside class="w-64 h-screen p-6 sidebar fixed top-0 left-0">
+        <div class="flex items-center space-x-2 text-2xl font-bold brand mb-10">
+            <i data-lucide="layout-dashboard" class="w-6 h-6"></i>
+            <span>SkillAdmin</span>
+        </div>
+
+        <nav class="space-y-4">
+            <a href="{{ url_for('admin_dashboard') }}" class="nav-link"><i data-lucide="home" class="icon-label"></i>
+                Dashboard</a>
+            <a href="{{ url_for('admin_clients') }}" class="nav-link">
+                <i data-lucide="users" class="icon-label"></i> Clients
+            </a>
+            <a href="{{ url_for('client_status') }}" class="nav-link active">
+                <i data-lucide="user-check" class="icon-label"></i> Client Status
+            </a>
+            <a href="{{ url_for('recent_client_activities') }}" class="nav-link">
+                <i data-lucide="activity" class="icon-label"></i> Client Logs
+            </a>
+            <a href="{{ url_for('admin_support') }}" class="nav-link"><i data-lucide="life-buoy" class="icon-label"></i>
+                Support</a>
+            {% if session.admin_role == 'administrator' %}
+            <a href="{{ url_for('add_new_admin') }}" class="nav-link"><i data-lucide="user-plus" class="icon-label"></i>
+                Add Admin</a>
+            <a href="{{ url_for('admin_logs') }}" class="nav-link"><i data-lucide="file-text" class="icon-label"></i>
+                Admin Logs</a>
+            {% endif %}
+            <a href="{{ url_for('admin_logout') }}" class="nav-link logout"><i data-lucide="log-out"
+                    class="icon-label"></i> Logout</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="ml-64 flex-1 p-8">
+        <div class="mb-6">
+            <h1 class="text-2xl font-bold mb-2">Active & Inactive Clients</h1>
+            <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Search by username..."
+                class="p-2 border rounded w-full max-w-md">
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <!-- Active Clients -->
+            <div class="stats-box">
+                <p class="font-bold text-lg mb-3">Active Clients</p>
+                <table class="admin-table w-full" id="activeTable">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Last Activity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for client in active_clients %}
+                        <tr>
+                            <td>{{ client.username }}</td>
+                            <td>
+                                {% if client.last_active %}
+                                {{ client.last_active.strftime('%d %b %Y, %I:%M %p') }}
+                                {% else %}
+                                <span class="text-gray-500">No Activity</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Inactive Clients -->
+            <div class="stats-box">
+                <p class="font-bold text-lg mb-3">Inactive Clients</p>
+                <table class="admin-table w-full" id="inactiveTable">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Registered On</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for client in inactive_clients %}
+                        <tr>
+                            <td>{{ client.username }}</td>
+                            <td>
+                                {% if client.created_at %}
+                                {{ client.created_at.strftime('%d %b %Y, %I:%M %p') }}
+                                {% else %}
+                                <span class="text-gray-500">Unknown</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        lucide.createIcons();
+
+        function filterTable() {
+            const input = document.getElementById("searchInput");
+            const filter = input.value.toLowerCase();
+            const tables = ["activeTable", "inactiveTable"];
+
+            tables.forEach((tableId) => {
+                const rows = document.getElementById(tableId).getElementsByTagName("tr");
+                for (let i = 1; i < rows.length; i++) {
+                    const username = rows[i].getElementsByTagName("td")[0].innerText.toLowerCase();
+                    rows[i].style.display = username.includes(filter) ? "" : "none";
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

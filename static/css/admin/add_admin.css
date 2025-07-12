@@ -1,0 +1,147 @@
+/* === Base === */
+body.admin-body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f4f8;
+    color: #333;
+    scroll-behavior: smooth;
+    transition: opacity 0.3s ease-in-out;
+}
+
+h1.form-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #03045e;
+}
+
+/* === Sidebar === */
+.sidebar {
+    background-color: #ffffff;
+    border-right: 1px solid #e5e7eb;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    overflow-y: auto;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+}
+
+.brand {
+    color: #03045e;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 500;
+    padding: 0.6rem 1rem;
+    color: #03045e;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s ease;
+}
+
+.nav-link:hover {
+    background-color: #90e0ef;
+    color: #0077b6;
+}
+
+.nav-link.active {
+    background-color: #0077b6;
+    color: #ffffff;
+}
+
+.nav-link.logout {
+    color: #ef4444;
+}
+
+.icon-label {
+    width: 1.1rem;
+    height: 1.1rem;
+}
+
+/* === Form Section === */
+.form-wrapper {
+    background-color: #ffffff;
+    padding: 2.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border-left: 5px solid #0077b6;
+    margin-top: 3rem;
+}
+
+.form-label {
+    font-weight: 600;
+    color: #03045e;
+}
+
+.input-field {
+    width: 100%;
+    padding: 0.6rem 0.9rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    background-color: #ffffff;
+    transition: border-color 0.2s ease;
+    font-size: 1rem;
+}
+
+.input-field:focus {
+    border-color: #0077b6;
+    outline: none;
+}
+
+/* === Buttons === */
+.btn {
+    padding: 0.75rem 1rem;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    background-color: #0077b6;
+    color: #ffffff;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn:hover {
+    background-color: #023e8a;
+    transform: scale(1.05);
+}
+
+.pin-toggle {
+    position: absolute;
+    top: 50px;
+    right: 0.75rem;
+    transform: translateY(-50%);
+    height: 2rem;
+    width: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6b7280;
+}
+
+/* === Responsive === */
+@media (max-width: 1024px) {
+    .sidebar {
+        display: none;
+    }
+
+    main {
+        margin-left: 0;
+        padding: 1rem;
+    }
+
+    .ml-64 {
+        margin-left: 0;
+    }
+
+    .input-field {
+        font-size: 0.9rem;
+    }
+
+    .form-wrapper {
+        margin-top: 2rem;
+        padding: 2rem;
+    }
+}

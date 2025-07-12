@@ -1,0 +1,114 @@
+/* === Base === */
+body.login-body {
+  background: linear-gradient(to bottom right, #f0f4f8, #dbeafe);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+  color: #333;
+}
+
+/* === Container === */
+.login-container {
+  background-color: #ffffff;
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login-container:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+}
+
+/* === Title === */
+.login-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #0077b6;
+}
+
+/* === Form Group === */
+.login-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-group label {
+  font-weight: 600;
+  color: #03045e;
+  margin-bottom: 0.25rem;
+  font-size: 0.95rem;
+}
+
+.login-group input {
+  border: 1px solid #cbd5e0;
+  border-radius: 0.5rem;
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.2s;
+  outline: none;
+}
+
+.login-group input:focus {
+  border-color: #0077b6;
+  box-shadow: 0 0 0 3px rgba(0, 119, 182, 0.3);
+}
+
+/* === PIN Eye Toggle === */
+.pin-toggle {
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  padding: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.pin-toggle:hover {
+  color: #0077b6;
+}
+
+/* === Submit Button === */
+.login-btn {
+  background-color: #0077b6;
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.login-btn:hover {
+  background-color: #023e8a;
+  transform: scale(1.03);
+}
+
+/* === Register Text === */
+.register-link {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.register-link a {
+  color: #0077b6;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+  color: #023e8a;
+}
+
+/* === Responsive Enhancements === */
+@media (max-width: 480px) {
+  .login-container {
+    padding: 1.5rem;
+  }
+
+  .login-title {
+    font-size: 1.5rem;
+  }
+}

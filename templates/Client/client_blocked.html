@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Blocked Users</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/client/blocked.css') }}" />
+</head>
+
+<body class="main-body flex">
+    <!-- Main Content -->
+    <main class="flex-1 p-10 overflow-y-auto">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="page-title">Blocked Users</h1>
+            <a href="{{ url_for('client_profile') }}"
+                class="back-link font-bold text-blue-600 hover:underline text-sm font-medium">
+                Back to Profile
+            </a>
+        </div>
+
+        {% if blocked_users %}
+        <ul class="space-y-4">
+            {% for user in blocked_users %}
+            <li class="section-box flex justify-between items-center">
+                <div>
+                    <p><strong>{{ user.blocked_username }}</strong></p>
+                </div>
+                <form action="{{ url_for('unblock_user_route', username=user.blocked_username) }}" method="post">
+                    <button type="submit" class="btn">Unblock</button>
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        {% endif %}
+    </main>
+</body>
+
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Client</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin/edit_client.css') }}" />
+</head>
+
+<body class="edit-client-body min-h-screen flex justify-center items-center bg-gray-50">
+
+    <div class="container max-w-xl w-full bg-white p-8 rounded-xl shadow-md">
+        <!-- Header -->
+        <div class="flex items-center gap-2 mb-6 justify-center">
+            <i data-lucide="user-cog" class="w-6 h-6 text-[#0077b6]"></i>
+            <h2 class="edit-title text-2xl font-bold text-[#03045e]">Edit Client</h2>
+        </div>
+
+        <!-- Form -->
+        <form method="POST" class="space-y-5">
+            <div>
+                <label class="label">Name</label>
+                <input type="text" name="name" value="{{ client.name }}" required class="input-field" />
+            </div>
+
+            <div>
+                <label class="label">Age</label>
+                <input type="number" name="age" value="{{ client.age }}" required class="input-field" />
+            </div>
+
+            <div>
+                <label class="label">Gender</label>
+                <select name="gender" required class="input-field">
+                    <option value="Male" {% if client.gender=='Male' %}selected{% endif %}>Male</option>
+                    <option value="Female" {% if client.gender=='Female' %}selected{% endif %}>Female</option>
+                    <option value="Other" {% if client.gender=='Other' %}selected{% endif %}>Other</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="label">Aadhar</label>
+                <input type="text" name="aadhar" value="{{ client.id }}" required class="input-field" />
+            </div>
+
+            <div>
+                <label class="label">Phone</label>
+                <input type="text" name="phone" value="{{ client.ph_no }}" required class="input-field" />
+            </div>
+
+            <div>
+                <label class="label">Address</label>
+                <input type="text" name="address" value="{{ client.address }}" required class="input-field" />
+            </div>
+
+            <div>
+                <label class="label">Teach Skills</label>
+                <input type="text" name="teach_skills" value="{{ client.teach_skills }}" class="input-field" />
+            </div>
+
+            <div>
+                <label class="label">Learn Skills</label>
+                <input type="text" name="learn_skills" value="{{ client.learn_skills }}" class="input-field" />
+            </div>
+
+            <div class="flex justify-between pt-4">
+                <div>
+                    <a href="{{ url_for('admin_clients') }}" class="btn btn-secondary">← Back</a>
+                </div>
+                <div>
+                    <button type="submit" class="btn">Save Changes</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>

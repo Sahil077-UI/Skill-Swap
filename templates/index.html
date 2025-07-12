@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome to SkillSwapHub</title>
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+
+<body class="main-body">
+    <!-- Navbar -->
+    <nav x-data="{ open: false }" class="navbar w-full fixed top-0 z-50">
+        <div x-data="{ open: false }" class="nav max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+
+            <!-- Logo + Brand -->
+            <div class="flex items-center gap-3">
+                <img id="brand-logo" src="{{ url_for('static', filename='uploads/website/Logo_dark.png') }}"
+                    data-dark="{{ url_for('static', filename='uploads/website/Logo_dark.png') }}"
+                    data-light="{{ url_for('static', filename='uploads/website/Logo_light.png') }}" alt="Logo"
+                    class="logo-img">
+                <span class="brand-name">SkillSwapHub</span>
+            </div>
+
+            <button id="mobile-toggle" class="text-white focus:outline-none md:hidden">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+
+            <!-- Desktop Nav + Login -->
+            <div class="hidden md:flex items-center gap-6">
+                <div class="nav-links flex gap-6">
+                    <a href="#home">Home</a>
+                    <a href="#features">Features</a>
+                    <a href="#about">About</a>
+                    <a href="#contact">Contact</a>
+                    <a href="#faq">FAQ</a>
+                </div>
+
+                <!-- Login Dropdown -->
+                <div x-data="{ open: false }" class="relative">
+                    <button @click="open = !open" class="login-btn flex items-center">
+                        Login
+                        <svg class="w-4 h-4 ml-2 transform" :class="{ 'rotate-180': open }" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+
+                    <div x-show="open" @click.away="open = false" x-transition
+                        class="dropdown-menu absolute right-0 mt-2 w-48 z-50">
+                        <a href="{{ url_for('client_register') }}">Register</a>
+                        <a href="{{ url_for('client_login') }}">Client Login</a>
+                        <a href="{{ url_for('admin_login') }}">Admin Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="sidebar-overlay" class="fixed inset-0 z-50 hidden md:hidden">
+            <!-- Overlay -->
+            <div class="absolute inset-0 bg-black opacity-50" id="sidebar-close"></div>
+
+            <!-- Sidebar -->
+            <div id="mobile-sidebar"
+                class="absolute top-0 right-0 w-64 h-full bg-[var(--bg-navbar)] p-6 transform translate-x-full transition-transform duration-300">
+                <div class="flex justify-between items-center mb-6">
+                    <span class="text-xl font-bold text-white">Menu</span>
+                    <button id="sidebar-close" class="text-white text-2xl focus:outline-none">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <nav class="flex flex-col space-y-4">
+                    <a href="#home" class="text-white">Home</a>
+                    <a href="#features" class="text-white">Features</a>
+                    <a href="#about" class="text-white">About</a>
+                    <a href="#contact" class="text-white">Contact</a>
+                    <a href="#faq" class="text-white">FAQ</a>
+                    <div class="mt-6 border-t border-[var(--border-color)] pt-4">
+                        <a href="{{ url_for('client_register') }}" class="text-white">Register</a>
+                        <a href="{{ url_for('client_login') }}" class="text-white">Client Login</a>
+                        <a href="{{ url_for('admin_login') }}" class="text-white">Admin Login</a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section w-full py-20">
+        <div class="container mx-auto px-8 flex flex-col md:flex-row items-center justify-between">
+            <div id="theme-class" class="absolute right-6 z-40">
+                <button id="theme-toggle" class="theme-toggle-icon-btn">
+                    <i id="theme-icon" class="fas fa-moon"></i>
+                </button>
+            </div>
+
+            <!-- Left: Text -->
+            <div class="hero-text w-full md:w-1/2 mb-12 md:mb-0" data-aos="fade-up">
+                <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold hero-title">Welcome to SkillSwapHub</h1>
+                <p class="hero-subtitle mt-4 text-base sm:text-lg">A platform where talents meet and skills grow.
+                    Connect with others to
+                    learn, teach, and collaborate like never before.</p>
+                <div class="hero-buttons mt-6 flex flex-wrap gap-4">
+                    <a href="{{ url_for('client_register') }}"><button class="primary-btn">Get Started</button></a>
+                    <a href="#features"><button class="secondary-btn">Explore Features</button></a>
+                </div>
+            </div>
+
+            <!-- Right: Image -->
+            <div class="hero-image w-full md:w-1/2 flex justify-center" data-aos="zoom-in">
+                <img src="{{ url_for('static', filename='uploads/website/Pic2.png') }}" alt="Hero Illustration"
+                    class="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg hero-illustration">
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features-section py-20">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="features-title mb-12">Platform Features</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+                <!-- Feature 1 -->
+                <div class="feature-card p-6 rounded-lg" data-aos="fade-up" data-aos-delay="100">
+                    <img src="{{ url_for('static', filename='uploads/website/Pic3.png') }}" alt="Skill Match"
+                        class="feature-icon mx-auto mb-4">
+                    <h3 class="feature-name">Smart Skill Matching</h3>
+                    <p class="feature-desc">Find ideal skill partners based on your interests, expertise, and
+                        availability.</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="feature-card p-6 rounded-lg" data-aos="fade-up" data-aos-delay="100">
+                    <img src="{{ url_for('static', filename='uploads/website/Pic5.png') }}" alt="Chat System"
+                        class="feature-icon mx-auto mb-4">
+                    <h3 class="feature-name">Real-time Messaging</h3>
+                    <p class="feature-desc">Communicate and collaborate instantly with secure and user-friendly
+                        messaging.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="feature-card p-6 rounded-lg" data-aos="fade-up" data-aos-delay="100">
+                    <img src="{{ url_for('static', filename='uploads/website/Pic6.png') }}" alt="Client Dashboard"
+                        class="feature-icon mx-auto mb-4">
+                    <h3 class="feature-name">Client Dashboard</h3>
+                    <p class="feature-desc">
+                        A personalized dashboard for clients to manage profiles, match with others, track messages, and
+                        view skill activity.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about-section py-20">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center gap-12">
+
+            <!-- Left: Text -->
+            <div class="about-text md:w-1/2" data-aos="fade-right">
+                <h2 class="about-title mb-4">About SkillSwapHub</h2>
+                <p class="about-desc">
+                    SkillSwapHub is a dynamic platform designed to connect individuals with complementary skills.
+                    Whether you’re looking to learn, teach, or collaborate, our system matches you with the right
+                    partners. We believe in the power of mutual growth through knowledge exchange and community
+                    engagement.
+                </p>
+                <p class="about-desc mt-4">
+                    From real-time messaging to smart skill matching, we empower users to build meaningful, skill-driven
+                    relationships.
+                </p>
+            </div>
+
+            <!-- Right: Image -->
+            <div class="about-image w-full md:w-1/2 flex justify-center" data-aos="fade-left">
+                <img src="{{ url_for('static', filename='uploads/website/Pic4.png') }}" alt="About SkillSwapHub"
+                    class="about-img w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg hero-illustration">
+            </div>
+
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section py-20">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center gap-12">
+
+            <div class="w-full md:w-1/2 flex justify-center" data-aos="fade-right">
+                <img src="{{ url_for('static', filename='uploads/website/Pic7.png') }}" alt="Contact Illustration"
+                    class="contact-img w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg hero-illustration">
+            </div>
+
+            <div class="w-full md:w-1/2" data-aos="fade-left">
+                <h2 class="contact-title mb-6">Contact Us</h2>
+                <ul class="contact-details space-y-4">
+                    <li><strong>Email:</strong> <a href="mailto:support@skillswaphub.com"
+                            class="contact-link">support@skillswaphub.com</a></li>
+                    <li><strong>Phone:</strong> <a href="tel:+919876543210" class="contact-link">+91 98765 43210</a>
+                    </li>
+                    <li><strong>Address:</strong> <span class="contact-text">SkillSwapHub HQ, Bangalore, India</span>
+                    </li>
+                    <li><strong>Working Hours:</strong> <span class="contact-text">Mon - Fri, 10AM - 6PM</span></li>
+                </ul>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="mission" class="mission-section py-20">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center gap-12">
+
+            <div class="w-full md:w-1/2" data-aos="fade-right">
+                <h2 class="mission-title mb-6">Our Mission & Vision</h2>
+                <p class="mission-desc mb-4">
+                    At <strong>SkillSwapHub</strong>, our mission is to empower individuals by creating a collaborative
+                    ecosystem where skills can be shared, learned, and valued without barriers.
+                </p>
+                <p class="mission-desc">
+                    Our vision is to become the global hub for peer-to-peer learning — connecting people across diverse
+                    fields and backgrounds to unlock their full potential together.
+                </p>
+            </div>
+
+            <div class="w-full md:w-1/2 flex justify-center" data-aos="fade-left">
+                <img src="{{ url_for('static', filename='uploads/website/Pic1.png') }}" alt="Mission Image"
+                    class="mission-img w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg hero-illustration">
+            </div>
+
+        </div>
+    </section>
+
+    <section id="faq" class="faq-section py-20">
+        <div class="container mx-auto px-4 max-w-3xl">
+            <h2 class="faq-title text-center mb-10">Frequently Asked Questions</h2>
+
+            <div class="faq-item mb-4" data-aos="fade-up">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    What is SkillSwapHub?
+                    <span class="faq-toggle">+</span>
+                </button>
+                <div class="faq-answer">
+                    SkillSwapHub is a peer-to-peer platform where users exchange skills by teaching and learning from
+                    one another.
+                </div>
+            </div>
+
+            <div class="faq-item mb-4" data-aos="fade-up">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    How does the matching system work?
+                    <span class="faq-toggle">+</span>
+                </button>
+                <div class="faq-answer" data-aos="fade-up">
+                    Our smart matching algorithm connects users based on their offered and desired skills, availability,
+                    and location.
+                </div>
+            </div>
+
+            <div class="faq-item mb-4" data-aos="fade-up">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    Is SkillSwapHub free to use?
+                    <span class="faq-toggle">+</span>
+                </button>
+                <div class="faq-answer">
+                    Yes, SkillSwapHub is completely free. You just need to register and start swapping skills!
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="how-it-works" class="how-it-works-section py-20">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center gap-12">
+
+            <!-- Left: Steps -->
+            <div class="w-full md:w-1/2" data-aos="fade-up">
+                <h2 class="hiw-title mb-6">How It Works</h2>
+                <ul class="hiw-steps space-y-6">
+                    <li class="hiw-step">
+                        <span class="step-number">1</span>
+                        <div>
+                            <h3 class="step-title">Create Your Profile</h3>
+                            <p class="step-desc">Sign up and list your skills — what you can teach and what you want to
+                                learn.</p>
+                        </div>
+                    </li>
+                    <li class="hiw-step">
+                        <span class="step-number">2</span>
+                        <div>
+                            <h3 class="step-title">Find a Match</h3>
+                            <p class="step-desc">Our smart algorithm connects you with people who have the skills you're
+                                looking for.</p>
+                        </div>
+                    </li>
+                    <li class="hiw-step">
+                        <span class="step-number">3</span>
+                        <div>
+                            <h3 class="step-title">Swap Skills</h3>
+                            <p class="step-desc">Start learning and teaching in a flexible, friendly, and collaborative
+                                environment.</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Right: Illustration -->
+            <div class="w-full md:w-1/2 flex justify-center" data-aos="zoom-in">
+                <img src="{{ url_for('static', filename='uploads/website/Pic2.png') }}" alt="How it works"
+                    class="hiw-img w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg hero-illustration">
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="footer-section py-12" data-aos="fade-up">
+        <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-10">
+
+            <!-- Logo & About -->
+            <div class="flex flex-col items-start gap-4">
+                <div class="flex items-center gap-3">
+                    <img id="brand-logo" src="{{ url_for('static', filename='uploads/website/Logo_dark.png') }}"
+                        data-dark="{{ url_for('static', filename='uploads/website/Logo_dark.png') }}"
+                        data-light="{{ url_for('static', filename='uploads/website/Logo_light.png') }}" alt="Logo"
+                        class="logo-img">
+                    <span class="brand-name">SkillSwapHub</span>
+                </div>
+                <p class="footer-desc">
+                    Empowering people to exchange skills, grow communities, and learn from each other — one connection
+                    at a time.
+                </p>
+            </div>
+
+            <!-- Quick Links -->
+            <div>
+                <h3 class="footer-heading mb-4">Quick Links</h3>
+                <ul class="footer-links space-y-2">
+                    <li><a href="#hero" class="footer-link">Home</a></li>
+                    <li><a href="#features" class="footer-link">Features</a></li>
+                    <li><a href="#about" class="footer-link">About</a></li>
+                    <li><a href="#faq" class="footer-link">FAQ</a></li>
+                    <li><a href="#how-it-works" class="footer-link">How It Works</a></li>
+                    <li><a href="#contact" class="footer-link">Contact</a></li>
+                </ul>
+            </div>
+
+            <!-- Social Media -->
+            <div>
+                <h3 class="footer-heading mb-4">Follow Us</h3>
+                <div class="flex gap-4 text-xl">
+                    <a href="#" class="social-icon" aria-label="Website"><i class="fas fa-globe"></i></a>
+                    <a href="#" class="social-icon" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+
+        </div>
+
+        <hr class="footer-divider my-10 border-t">
+
+        <div class="text-center text-xs text-muted">
+            © 2025 SkillSwapHub. All rights reserved.
+        </div>
+    </footer>
+    
+    <button id="backToTop"
+        class="back-to-top hidden fixed bottom-6 right-6 z-50 bg-[#00b4d8] text-white p-3 rounded-full shadow-lg hover:bg-[#0096c7] transition duration-300">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- AOS JS -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+    </script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+
+</html>

@@ -1,0 +1,178 @@
+/* === Base === */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f4f8;
+  color: #333;
+  scroll-behavior: smooth;
+}
+
+.main-body {
+  opacity: 1;
+  transition: opacity 0.2s ease-in-out;
+}
+
+/* === Sidebar === */
+.sidebar {
+  background-color: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  z-index: 40;
+}
+
+.brand-text,
+.brand-icon {
+  color: #000000;
+}
+
+.nav-link {
+  display: block;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  color: #03045e;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  background-color: #caf0f8;
+  color: #0077b6;
+}
+
+.nav-link.active {
+  background-color: #0077b6;
+  color: white;
+}
+
+/* === Titles === */
+.dashboard-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #03045e;
+}
+
+.dashboard-subtitle {
+  font-size: 0.875rem;
+  color: #666666;
+}
+
+/* === Request Card === */
+.section-box {
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  border-left: 4px solid #00b4d8;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.section-box:hover {
+  background-color: #f1faff;
+  transform: scale(1.01);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+}
+
+.grid > .section-box:first-child {
+  margin-top: 1.5rem;
+}
+
+/* === Avatar / Badges === */
+.initial-badge {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #00b4d8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 1.125rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* === Username Styling === */
+.username-cell {
+  color: #0077b6;
+  font-weight: 600;
+}
+
+/* === Status / No Requests === */
+.no-data {
+  font-size: 0.95rem;
+  font-style: italic;
+  color: #777;
+}
+
+/* === Buttons === */
+.btn,
+.btn-danger {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn {
+  background-color: #0077b6;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover {
+  background-color: #00b4d8;
+  transform: scale(1.05);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.btn-danger {
+  background-color: #ef4444;
+}
+
+.btn-danger:hover {
+  background-color: #b91c1c;
+  transform: scale(1.05);
+}
+
+/* === Animation === */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+/* === Responsive Sidebar === */
+@media (max-width: 768px) {
+  .sidebar {
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 80%;
+    max-width: 18rem;
+    position: fixed;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    z-index: 999;
+  }
+
+  .sidebar.show {
+    transform: translateX(0);
+  }
+}
+
+/* === Responsive Section Padding === */
+@media (max-width: 640px) {
+  .section-box {
+    padding: 1rem;
+  }
+}

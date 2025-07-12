@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Recent Client Activities</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin/admin_dashboard.css') }}">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="admin-body flex">
+
+    <!-- Sidebar -->
+    <aside class="w-64 h-screen p-6 sidebar fixed top-0 left-0">
+        <div class="flex items-center space-x-2 text-2xl font-bold brand mb-10">
+            <i data-lucide="layout-dashboard" class="w-6 h-6"></i>
+            <span>SkillAdmin</span>
+        </div>
+
+        <nav class="space-y-4">
+            <a href="{{ url_for('admin_dashboard') }}" class="nav-link"><i data-lucide="home"
+                    class="icon-label"></i> Dashboard</a>
+            <a href="{{ url_for('admin_clients') }}" class="nav-link">
+                <i data-lucide="users" class="icon-label"></i> Clients
+            </a>
+            <a href="{{ url_for('client_status') }}" class="nav-link">
+                <i data-lucide="user-check" class="icon-label"></i> Client Status
+            </a>
+            <a href="{{ url_for('recent_client_activities') }}" class="nav-link active">
+                <i data-lucide="activity" class="icon-label"></i>
+                Client Logs
+            </a>
+            <a href="{{ url_for('admin_support') }}" class="nav-link"><i data-lucide="life-buoy" class="icon-label"></i>
+                Support</a>
+            {% if session.admin_role == 'administrator' %}
+            <a href="{{ url_for('add_new_admin') }}" class="nav-link"><i data-lucide="user-plus" class="icon-label"></i>
+                Add Admin</a>
+            <a href="{{ url_for('admin_logs') }}" class="nav-link"><i data-lucide="file-text" class="icon-label"></i>
+                Admin Logs</a>
+            {% endif %}
+            <a href="{{ url_for('admin_logout') }}" class="nav-link logout"><i data-lucide="log-out"
+                    class="icon-label"></i> Logout</a>
+        </nav>
+    </aside>
+
+    <!-- Main -->
+    <main class="ml-64 flex-1 p-8">
+        <h2 class="text-2xl font-semibold mb-6">Recent Client Activities</h2>
+
+        <form method="get" action="{{ url_for('recent_client_activities') }}" class="mb-6 flex gap-4">
+            <input type="text" name="search" value="{{ request.args.get('search', '') }}"
+                placeholder="Search by username or activity" class="input-field w-full max-w-md">
+            <button type="submit" class="btn">Search</button>
+        </form>
+
+        <div class="overflow-x-auto section-box">
+            <table class="admin-table w-full">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Activity</th>
+                        <th>Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for log in logs %}
+                    <tr>
+                        <td>{{ log.username }}</td>
+                        <td>{{ log.activity }}</td>
+                        <td>{{ log.timestamp }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="3" class="text-center py-4 text-gray-500">No activity logs found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>
