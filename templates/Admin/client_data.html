@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Registered Clients</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin/admin_dashboard.css') }}">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="admin-body flex">
+
+    <!-- Sidebar -->
+    <aside class="w-64 h-screen p-6 sidebar fixed top-0 left-0">
+        <div class="flex items-center space-x-2 text-2xl font-bold brand mb-10">
+            <i data-lucide="layout-dashboard" class="w-6 h-6"></i>
+            <span>SkillAdmin</span>
+        </div>
+
+        <nav class="space-y-4">
+            <a href="{{ url_for('admin_dashboard') }}" class="nav-link"><i data-lucide="home"
+                    class="icon-label"></i> Dashboard</a>
+            <a href="{{ url_for('admin_clients') }}" class="nav-link active">
+                <i data-lucide="users" class="icon-label"></i> Clients
+            </a>
+            <a href="{{ url_for('client_status') }}" class="nav-link">
+                <i data-lucide="user-check" class="icon-label"></i> Client Status
+            </a>
+            <a href="{{ url_for('recent_client_activities') }}" class="nav-link">
+                <i data-lucide="activity" class="icon-label"></i>
+                Client Logs
+            </a>
+            <a href="{{ url_for('admin_support') }}" class="nav-link"><i data-lucide="life-buoy" class="icon-label"></i>
+                Support</a>
+            {% if session.admin_role == 'administrator' %}
+            <a href="{{ url_for('add_new_admin') }}" class="nav-link"><i data-lucide="user-plus" class="icon-label"></i>
+                Add Admin</a>
+            <a href="{{ url_for('admin_logs') }}" class="nav-link"><i data-lucide="file-text" class="icon-label"></i>
+                Admin Logs</a>
+            {% endif %}
+            <a href="{{ url_for('admin_logout') }}" class="nav-link logout"><i data-lucide="log-out"
+                    class="icon-label"></i> Logout</a>
+        </nav>
+    </aside>>
+
+    <!-- Main Content -->
+    <main class="ml-64 flex-1 p-8">
+        <h2 class="text-2xl font-semibold mb-6">All Registered Clients</h2>
+
+        <form method="get" action="{{ url_for('admin_clients') }}"
+            class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6 filter-box">
+            <div>
+                <label>Name</label>
+                <input type="text" name="search_name" value="{{ request.args.get('search_name', '') }}"
+                    class="input-field">
+            </div>
+            <div>
+                <label>Skill</label>
+                <input type="text" name="filter_skill" value="{{ request.args.get('filter_skill', '') }}"
+                    class="input-field">
+            </div>
+            <div>
+                <label>Address</label>
+                <input type="text" name="filter_address" value="{{ request.args.get('filter_address', '') }}"
+                    class="input-field">
+            </div>
+            <div class="sm:col-span-3 flex gap-4 mt-2">
+                <button type="submit" class="btn">Apply</button>
+                <a href="{{ url_for('admin_clients') }}" class="btn-secondary">Clear</a>
+            </div>
+        </form>
+
+        <div class="overflow-auto section-box">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Gender</th>
+                        <th>Aadhar</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <th>Username</th>
+                        <th>Teach Skills</th>
+                        <th>Learn Skills</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for client in clients %}
+                    <tr>
+                        <td>{{ client.name }}</td>
+                        <td>{{ client.age }}</td>
+                        <td>{{ client.gender }}</td>
+                        <td>{{ client.id }}</td>
+                        <td>{{ client.ph_no }}</td>
+                        <td>{{ client.address }}</td>
+                        <td>{{ client.username }}</td>
+                        <td>{{ client.teach_skills }}</td>
+                        <td>{{ client.learn_skills }}</td>
+                        <td class="flex gap-2">
+                            <a href="{{ url_for('admin_view_client', username=client.username) }}"
+                                class="btn-sm">View</a>
+                            <a href="{{ url_for('admin_edit_client', username=client.username) }}"
+                                class="btn-sm edit">Edit</a>
+                            <a href="{{ url_for('admin_delete_client', username=client.username) }}"
+                                class="btn-sm danger">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>

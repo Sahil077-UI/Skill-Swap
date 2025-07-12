@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Connection Requests</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/client/request.css') }}" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body id="main-body" class="main-body">
+    <div class="flex min-h-screen">
+
+        <!-- Sidebar -->
+        <aside id="mobile-sidebar"
+            class="sidebar w-64 px-6 py-8 space-y-6 transform transition-transform duration-300 ease-in-out hidden md:block translate-x-full md:translate-x-0 fixed md:relative z-40 bg-white border-r">
+            <div class="flex items-center justify-between md:block">
+                <div class="flex items-center space-x-2 text-2xl font-bold brand-text">
+                    <svg class="w-6 h-6 brand-icon" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 20l-6-6h4V6h4v8h4l-6 6z" />
+                    </svg>
+                    <span>SkillSync</span>
+                </div>
+                <button id="mobile-menu-toggle" class="md:hidden">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+
+            <nav class="space-y-4">
+                <a href="{{ url_for('client_profile') }}" class="nav-link">
+                    <i data-lucide="home" class="inline w-4 h-4 mr-2"></i> Home
+                </a>
+                <a href="{{ url_for('client_info') }}" class="nav-link">
+                    <i data-lucide="info" class="inline w-4 h-4 mr-2"></i> Personal Info
+                </a>
+                <a href="{{ url_for('client_connections') }}" class="nav-link">
+                    <i data-lucide="users" class="inline w-4 h-4 mr-2"></i> Connections
+                </a>
+                <a href="{{ url_for('client_matches') }}" class="nav-link">
+                    <i data-lucide="link" class="inline w-4 h-4 mr-2"></i> Skill Matches
+                </a>
+                <a href="{{ url_for('client_requests') }}" class="nav-link active">
+                    <i data-lucide="user-plus" class="inline w-4 h-4 mr-2"></i> Requests
+                </a>
+                <a href="{{ url_for('client_chat') }}" class="nav-link">
+                    <i data-lucide="message-square" class="inline w-4 h-4 mr-2"></i> Chats
+                </a>
+                <a href="{{ url_for('create_group') }}" class="nav-link">
+                    <i data-lucide="plus-square" class="inline w-4 h-4 mr-2"></i> Create Group
+                </a>
+                <a href="{{ url_for('global_chat') }}" class="nav-link">
+                    <i data-lucide="globe" class="inline w-4 h-4 mr-2"></i> Community Chat
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col w-full">
+            <!-- Mobile Header -->
+            <header class="flex items-center justify-between p-4 bg-white border-b shadow-md md:hidden">
+                <div class="text-xl font-semibold text-gray-800"></div>
+                <button id="mobile-menu-toggle">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </header>
+
+            <!-- Main Content -->
+            <main class="p-4 sm:p-6 md:p-10 overflow-y-auto">
+                <div class="mb-8">
+                    <h1 class="dashboard-title">Connection Requests</h1>
+                    <p class="dashboard-subtitle">Review and manage incoming requests</p>
+                </div>
+
+                {% if received_requests %}
+                <div class="grid grid-cols-1 gap-6">
+                    {% for req in received_requests %}
+                    <div class="section-box animate-fade-in">
+                        <div class="flex items-center gap-4 mb-4">
+                            {% if req.sender_info and req.sender_info.profile_photo %}
+                            <img src="{{ url_for('static', filename='uploads/profile_photos/' ~ req.sender_info.profile_photo) }}"
+                                alt="Profile Photo" class="w-12 h-12 rounded-full object-cover border shadow" />
+                            {% elif req.sender_info %}
+                            <div class="initial-badge">
+                                {{ (req.sender_info.name | default('?') | string)[0] | upper }}
+                            </div>
+                            {% endif %}
+
+                            <div>
+                                <p class="username-cell">{{ req.sender_info.username }}</p>
+                                <p class="text-sm text-gray-500">{{ req.sender_info.name }}</p>
+                            </div>
+                        </div>
+
+                        <p><strong>Status:</strong> <span>{{ req.status|capitalize }}</span></p>
+
+                        {% if req.status == 'pending' %}
+                        <div class="flex space-x-4 mt-4">
+                            <form action="{{ url_for('handle_request', request_id=req.id, action='accept') }}"
+                                method="post">
+                                <button type="submit" class="btn">Accept</button>
+                            </form>
+                            <form action="{{ url_for('handle_request', request_id=req.id, action='reject') }}"
+                                method="post">
+                                <button type="submit" class="btn-danger">Reject</button>
+                            </form>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="no-data">No connection requests received.</p>
+                {% endif %}
+            </main>
+        </div>
+    </div>
+
+    <!-- Custom Confirmation Modal -->
+    <div id="confirmation-modal"
+        class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg shadow-lg w-80 p-6 text-center space-y-4">
+            <h2 class="text-lg font-semibold text-gray-800">Confirm Action</h2>
+            <p id="confirmation-message" class="text-gray-600">Are you sure?</p>
+            <div class="flex justify-center gap-4 mt-4">
+                <button id="confirm-action"
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">Yes</button>
+                <button id="cancel-action"
+                    class="bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Confirmation Modal -->
+    <div id="confirmation-modal"
+        class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg shadow-lg w-80 p-6 text-center space-y-4">
+            <h2 class="text-lg font-semibold text-gray-800">Confirm Action</h2>
+            <p id="confirmation-message" class="text-gray-600">Are you sure?</p>
+            <div class="flex justify-center gap-4 mt-4">
+                <button id="confirm-action" class="px-4 py-2 rounded text-white font-semibold">Yes</button>
+                <button id="cancel-action"
+                    class="bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        lucide.createIcons();
+    </script>
+    <script src="{{ url_for('static', filename='js/client/request.js') }}"></script>
+</body>
+
+</html>

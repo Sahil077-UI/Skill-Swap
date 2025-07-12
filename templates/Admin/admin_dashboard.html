@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin/admin_dashboard.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="admin-body flex overflow-x-hidden">
+
+    <!-- Sidebar -->
+    <aside class="w-64 h-screen p-6 sidebar fixed top-0 left-0">
+        <div class="flex items-center space-x-2 text-2xl font-bold brand mb-10">
+            <i data-lucide="layout-dashboard" class="w-6 h-6"></i>
+            <span>SkillAdmin</span>
+        </div>
+
+        <nav class="space-y-4">
+            <a href="{{ url_for('admin_dashboard') }}" class="nav-link active"><i data-lucide="home"
+                    class="icon-label"></i> Dashboard</a>
+            <a href="{{ url_for('admin_clients') }}" class="nav-link">
+                <i data-lucide="users" class="icon-label"></i> Clients
+            </a>
+            <a href="{{ url_for('client_status') }}" class="nav-link">
+                <i data-lucide="user-check" class="icon-label"></i> Client Status
+            </a>
+            <a href="{{ url_for('recent_client_activities') }}" class="nav-link">
+                <i data-lucide="activity" class="icon-label"></i>
+                Client Logs
+            </a>
+            <a href="{{ url_for('admin_support') }}" class="nav-link"><i data-lucide="life-buoy" class="icon-label"></i>
+                Support</a>
+            {% if session.admin_role == 'administrator' %}
+            <a href="{{ url_for('add_new_admin') }}" class="nav-link"><i data-lucide="user-plus" class="icon-label"></i>
+                Add Admin</a>
+            <a href="{{ url_for('admin_logs') }}" class="nav-link"><i data-lucide="file-text" class="icon-label"></i>
+                Admin Logs</a>
+            {% endif %}
+            <a href="{{ url_for('admin_logout') }}" class="nav-link logout"><i data-lucide="log-out"
+                    class="icon-label"></i> Logout</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="ml-64 flex-1 p-8">
+        <!-- Top Bar -->
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="admin-title">Welcome, {{ session['admin_username'] }}</h1>
+        </div>
+
+        <!-- Metrics Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+            <div class="stats-box">
+                <p class="font-bold text-lg">Total Registered Clients</p>
+                <p>{{ total_clients }}</p>
+            </div>
+            <div class="stats-box">
+                <p class="font-bold text-lg">Top Skills</p>
+                <p>
+                    {% for skill, count in top_skills %}
+                    {{ skill }} ({{ count }}){% if not loop.last %}, {% endif %}
+                    {% endfor %}
+                </p>
+            </div>
+            <div class="stats-box">
+                <p class="font-bold text-lg">Top Addresses</p>
+                <p>
+                    {% for address, count in top_addresses %}
+                    {{ address }} ({{ count }}){% if not loop.last %}, {% endif %}
+                    {% endfor %}
+                </p>
+            </div>
+            <div class="stats-box">
+                <p class="font-bold text-lg">Total Admins</p>
+                <p>{{ total_admins }}</p>
+            </div>
+
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="stats-box bg-blue-100 text-blue-800 flex items-center gap-2">
+                <i data-lucide="user" class="w-5 h-5"></i> Male Clients: {{ male_count }}
+            </div>
+            <div class="stats-box bg-pink-100 text-pink-800 flex items-center gap-2">
+                <i data-lucide="user" class="w-5 h-5"></i> Female Clients: {{ female_count }}
+            </div>
+            <div class="stats-box bg-gray-100 text-gray-800 flex items-center gap-2">
+                <i data-lucide="users" class="w-5 h-5"></i> Others: {{ other_count }}
+            </div>
+        </div>
+
+        <div class="stats-box mb-6">
+            <p class="font-bold text-lg">Top Learn Skills</p>
+            <p>
+                {% for skill, count in top_learn_skills %}
+                {{ skill }} ({{ count }}){% if not loop.last %}, {% endif %}
+                {% endfor %}
+            </p>
+        </div>
+
+        <div class="flex gap-6 mb-6">
+            <!-- Monthly User Analytics -->
+            <div class="stats-box w-full md:w-1/2">
+                <p class="font-bold text-lg mb-2">Monthly User Analytics</p>
+                <canvas id="userActivityChart" class="w-full h-48"></canvas>
+            </div>
+
+            <!-- Skill Trend Chart -->
+            <div class="stats-box w-full md:w-1/2">
+                <p class="font-bold text-lg mb-2">Skill Trend Chart</p>
+                <canvas id="skillTrendChart" class="w-full h-48"></canvas>
+            </div>
+        </div>
+
+        <div class="flex gap-6 mb-6">
+            <div class="stats-box w-full md:w-1/2">
+                <p class="font-bold text-lg mb-2">Login Heatmap</p>
+                <canvas id="loginHeatmapChart" class="w-full h-48"></canvas>
+            </div>
+            <div class="stats-box w-full md:w-1/2">
+                <p class="font-bold text-lg mb-2">Skill Trend Chart</p>
+                <div class="w-full flex justify-center items-center">
+                    <div class="relative w-[350px] h-[350px]">
+                        <canvas id="topClientsPieChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <script>
+        lucide.createIcons();
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-matrix@1.1.0/dist/chartjs-chart-matrix.min.js"></script>
+    <script>
+        window.chartLabels = {{ month_labels | tojson | safe }};
+        window.chartRegistered = {{ chart_registered | tojson | safe }};
+        window.chartActive = {{ chart_active | tojson | safe }};
+        window.chartInactive = {{ chart_inactive | tojson | safe }};
+    </script>
+    <script>
+        window.monthLabels = {{ month_labels | tojson | safe }};
+        window.skillTrends = {{ skill_trends | tojson | safe }};
+    </script>
+    <script>
+        window.heatmapData = {{ heatmap_data | tojson | safe }};
+    </script>
+    <script>
+        window.pieLabels = {{ pie_labels | tojson | safe }};
+        window.pieValues = {{ pie_values | tojson | safe }};
+    </script>
+
+    <script src="{{ url_for('static', filename='js/admin/admin_dashboard.js') }}"></script>
+</body>
+
+</html>

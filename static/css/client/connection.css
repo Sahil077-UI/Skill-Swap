@@ -1,0 +1,164 @@
+/* === Base === */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  scroll-behavior: smooth;
+  background-color: #f0f4f8;
+  color: #333;
+}
+
+.main-body {
+  transition: opacity 0.2s ease-in-out;
+  opacity: 1;
+}
+
+.dashboard-subtitle {
+  font-size: 0.875rem;
+  color: #666666;
+}
+
+/* === Sidebar === */
+.sidebar {
+  background-color: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.brand-text {
+  color: #000000;
+}
+
+.brand-icon {
+  color: #000000;
+}
+
+.nav-link {
+  display: block;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  color: #03045e;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  background-color: #caf0f8;
+  color: #0077b6;
+}
+
+.nav-link.active {
+  background-color: #0077b6;
+  color: white;
+}
+
+/* === Section === */
+.section-box {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+  border-left: 4px solid #0077b6;
+}
+
+/* === Title === */
+.page-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #03045e;
+}
+
+/* === Connection Card === */
+.connection-item {
+  background-color: #f1faff;
+  border-left: 4px solid #00b4d8;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.connection-item:hover {
+  background-color: #e0f7ff;
+  transform: scale(1.01);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+/* === Buttons === */
+.btn {
+  background-color: #0077b6;
+  color: white;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.btn:hover {
+  background-color: #023e8a;
+  transform: scale(1.05);
+}
+
+.btn-danger {
+  background-color: #ef4444;
+  color: white;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.btn-danger:hover {
+  background-color: #b91c1c;
+  transform: scale(1.05);
+}
+
+#remove-match-modal {
+  transition: opacity 0.3s ease;
+}
+#remove-match-modal:not(.hidden) {
+  opacity: 1;
+}
+
+/* === No Data Message === */
+.no-data {
+  font-style: italic;
+  color: #777;
+  font-size: 0.95rem;
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+  .sidebar {
+    padding-top: 4rem;
+    position: fixed;
+    inset: 0;
+    width: 16rem;
+    height: 100vh;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    background-color: white;
+    z-index: 40;
+  }
+
+  .sidebar.show {
+    transform: translateX(0);
+  }
+
+  header {
+    z-index: 50;
+  }
+
+  main {
+    padding: 1rem;
+  }
+
+  .page-title {
+    font-size: 1.5rem;
+  }
+
+  .btn,
+  .btn-danger {
+    font-size: 0.875rem;
+    padding: 0.5rem 0.75rem;
+  }
+}

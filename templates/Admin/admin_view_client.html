@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>View Client</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin/view_client.css') }}" />
+</head>
+
+<body class="view-client-body min-h-screen flex justify-center items-center bg-gray-50">
+    <div class="container max-w-2xl w-full bg-white rounded-xl shadow-lg p-8">
+        <!-- Header -->
+        <div class="flex items-center justify-center gap-2 mb-6">
+            <i data-lucide="user-circle" class="w-6 h-6 text-[#03045e]"></i>
+            <h2 class="client-title text-center">Client Profile</h2>
+        </div>
+
+        <!-- Client Info List -->
+        <ul class="client-info space-y-4">
+            <li>
+                <div class="field">
+                    <i data-lucide="user" class="icon"></i>
+                    <span><span class="label">Name:</span> {{ client.name }}</span>
+                </div>
+            </li>
+            <li>
+                <div class="field">
+                    <i data-lucide="calendar" class="icon"></i>
+                    <span><span class="label">Age:</span> {{ client.age }}</span>
+                </div>
+            </li>
+            <li>
+                <div class="field">
+                    <i data-lucide="venus" class="icon"></i>
+                    <span><span class="label">Gender:</span> {{ client.gender }}</span>
+                </div>
+            </li>
+            <li>
+                <div class="field">
+                    <i data-lucide="credit-card" class="icon"></i>
+                    <span><span class="label">Aadhar:</span> {{ client.id }}</span>
+                </div>
+            </li>
+            <li>
+                <div class="field copy-phone" title="Click to copy phone number">
+                    <i data-lucide="phone" class="icon"></i>
+                    <span><span class="label">Phone:</span> {{ client.ph_no }}</span>
+                </div>
+            </li>
+
+            <li>
+                <div class="field">
+                    <i data-lucide="map-pin" class="icon"></i>
+                    <span><span class="label">Address:</span> {{ client.address }}</span>
+                </div>
+            </li>
+            <li>
+                <div class="field copy-username" title="Click to copy username">
+                    <i data-lucide="badge-check" class="icon"></i>
+                    <span><span class="label">Username:</span> {{ client.username }}</span>
+                </div>
+            </li>
+            <li>
+                <div class="field">
+                    <i data-lucide="book-open" class="icon"></i>
+                    <span><span class="label">Skills to Teach:</span> {{ client.teach_skills }}</span>
+                </div>
+            </li>
+            <li>
+                <div class="field">
+                    <i data-lucide="graduation-cap" class="icon"></i>
+                    <span><span class="label">Skills to Learn:</span> {{ client.learn_skills }}</span>
+                </div>
+            </li>
+        </ul>
+
+        <div id="copy-toast"
+            class="fixed bottom-6 right-6 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg text-sm hidden z-50 flex items-center gap-2">
+            <i data-lucide="clipboard-check" class="w-4 h-4"></i>
+            <span>Number copied</span>
+        </div>
+
+        <!-- Back Button -->
+        <div class="mt-8 text-center">
+            <a href="{{ url_for('admin_clients') }}" class="back-btn">← Back</a>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="{{ url_for('static', filename='js/admin/view_client.js') }}"></script>
+</body>
+
+</html>

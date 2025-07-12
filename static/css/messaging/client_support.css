@@ -1,0 +1,110 @@
+/* === Base === */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f4f8;
+  color: #333;
+  scroll-behavior: smooth;
+}
+
+.main-body {
+  transition: opacity 0.2s ease-in-out;
+  opacity: 1;
+}
+
+/* === Typography === */
+.dashboard-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #03045e;
+}
+
+.dashboard-subtitle {
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.back-link {
+  color: #0077b6;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+  color: #023e8a;
+}
+
+/* === Section Box === */
+.section-box {
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border-left: 4px solid #0077b6;
+  overflow-y: auto;
+}
+
+/* === Chat Messages === */
+.timestamp {
+  font-size: 0.75rem;
+  color: #999;
+  margin-left: 0.5rem;
+}
+
+/* === Textarea === */
+.textarea {
+  min-height: 100px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  resize: none; /* ✅ This locks the resize */
+}
+
+/* === Button === */
+.btn {
+  background-color: #0077b6;
+  color: white;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  transition: background-color 0.3s ease, transform 0.2s;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.btn:hover {
+  background-color: #023e8a;
+  transform: scale(1.05);
+}
+
+/* === Scrollbar Styling === */
+.section-box::-webkit-scrollbar {
+  width: 8px;
+}
+
+.section-box::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+  .dashboard-title {
+    font-size: 1.5rem;
+  }
+
+  .btn {
+    font-size: 0.875rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .textarea {
+    font-size: 0.875rem;
+  }
+
+  main {
+    padding: 1rem;
+  }
+}

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Profile</title>
+</head>
+<body>
+    <h2>Edit Profile - {{ client.name }}</h2>
+    <form method="POST">
+        Name: <input type="text" name="name" value="{{ client.name }}" required><br><br>
+        Age: <input type="number" name="age" value="{{ client.age }}" required><br><br>
+        Gender:
+        <select name="gender" required>
+            <option value="Male" {% if client.gender == 'Male' %}selected{% endif %}>Male</option>
+            <option value="Female" {% if client.gender == 'Female' %}selected{% endif %}>Female</option>
+            <option value="Other" {% if client.gender == 'Other' %}selected{% endif %}>Other</option>
+        </select><br><br>
+        Phone Number: <input type="number" name="phone" value="{{ client.ph_no }}" required><br><br>
+        Address: <input type="text" name="address" value="{{ client.address }}" required><br><br>
+        Location: <input type="text" name="location" value="{{ client.location }}"><br><br>
+        New PIN: <input type="password" name="pin" placeholder="Leave blank to keep existing"><br><br>
+        Skills to Teach: <input type="text" name="teach_skills" value="{{ client.teach_skills }}"><br><br>
+        Skills to Learn: <input type="text" name="learn_skills" value="{{ client.learn_skills }}"><br><br>
+        <input type="submit" value="Update Profile">
+    </form>
+    <p><a href="{{ url_for('client_profile') }}">Back to Profile</a></p>
+</body>
+</html>

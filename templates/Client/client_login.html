@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Client Login</title>
+
+    <!-- Tailwind Layout Only -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/client/login.css') }}">
+    <script src="https://unpkg.com/feather-icons"></script>
+</head>
+
+<body class="login-body flex justify-center items-center px-4">
+
+    <div class="login-container w-full max-w-md p-8">
+        <h2 class="login-title text-center mb-6">Client Login</h2>
+
+        <form method="POST" class="space-y-6">
+            <div class="login-group">
+                <label>Username</label>
+                <input type="text" name="username" required>
+            </div>
+
+            <div class="login-group relative">
+                <label for="pin">Password</label>
+                <input type="password" name="pin" id="pinInput" required class="pr-12">
+
+                <button type="button" id="togglePin"
+                    class="pin-toggle absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center">
+                    <i data-feather="eye"></i>
+                </button>
+            </div>
+
+            <button type="submit" class="login-btn w-full">
+                Login
+            </button>
+
+            <p class="register-link text-center mt-4">
+                Don't have an account?
+                <a href="{{ url_for('client_register') }}">Register</a>
+            </p>
+        </form>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/client/login.js') }}"></script>
+    <script>feather.replace()</script>
+</body>
+
+</html>

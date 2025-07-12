@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Group</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/messaging/group.css') }}" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body id="main-body" class="main-body">
+    <!-- Mobile Menu Button -->
+    <div class="md:hidden fixed top-4 left-4 z-50">
+        <button id="mobile-menu-toggle" class="bg-white p-2 rounded shadow">
+            <i data-lucide="menu" class="w-6 h-6 text-black"></i>
+        </button>
+    </div>
+
+    <div class="flex min-h-screen">
+        <aside id="mobile-sidebar"
+            class="sidebar w-64 px-6 py-8 space-y-6 transform transition-transform duration-300 ease-in-out -translate-x-full fixed inset-y-0 left-0 md:translate-x-0 md:relative md:block z-40 bg-white border-r">
+
+            <div class="flex items-center justify-between md:block">
+                <div class="flex items-center space-x-2 text-2xl font-bold brand-text">
+                    <svg class="w-6 h-6 brand-icon" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 20l-6-6h4V6h4v8h4l-6 6z" />
+                    </svg>
+                    <span>SkillSync</span>
+                </div>
+            </div>
+
+            <nav class="space-y-4">
+                <a href="{{ url_for('client_profile') }}" class="nav-link">
+                    <i data-lucide="home" class="inline w-4 h-4 mr-2"></i> Home
+                </a>
+                <a href="{{ url_for('client_info') }}" class="nav-link">
+                    <i data-lucide="info" class="inline w-4 h-4 mr-2"></i> Personal Info
+                </a>
+                <a href="{{ url_for('client_connections') }}" class="nav-link">
+                    <i data-lucide="users" class="inline w-4 h-4 mr-2"></i> Connections
+                </a>
+                <a href="{{ url_for('client_matches') }}" class="nav-link">
+                    <i data-lucide="link" class="inline w-4 h-4 mr-2"></i> Skill Matches
+                </a>
+                <a href="{{ url_for('client_requests') }}" class="nav-link">
+                    <i data-lucide="user-plus" class="inline w-4 h-4 mr-2"></i> Requests
+                </a>
+                <a href="{{ url_for('client_chat') }}" class="nav-link">
+                    <i data-lucide="message-square" class="inline w-4 h-4 mr-2"></i> Chats
+                </a>
+                <a href="{{ url_for('create_group') }}" class="nav-link active">
+                    <i data-lucide="plus-square" class="inline w-4 h-4 mr-2"></i> Create Group
+                </a>
+                <a href="{{ url_for('global_chat') }}" class="nav-link">
+                    <i data-lucide="globe" class="inline w-4 h-4 mr-2"></i> Community Chat
+                </a>
+            </nav>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="flex-1 p-10 overflow-y-auto">
+                <div class="mb-8">
+                    <h1 class="dashboard-title">Create a New Group</h1>
+                    <p class="dashboard-subtitle">Start a group to share and learn skills</p>
+                </div>
+
+                <div class="section-box max-w-lg animate-fade-in">
+                    <form method="post" class="space-y-6">
+                        <div>
+                            <label for="group_name" class="block font-medium text-sm text-gray-700 mb-2">Group
+                                Name:</label>
+                            <input type="text" id="group_name" name="group_name" required
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                        </div>
+                        <button type="submit" class="btn">Create</button>
+                    </form>
+                </div>
+            </main>
+    </div>
+
+    <script>
+        lucide.createIcons();
+    </script>
+    <script src="{{ url_for('static', filename='js/messaging/group.js') }}"></script>
+</body>
+
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Client Registration</title>
+
+  <!-- Tailwind Layout -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/client/register.css') }}">
+</head>
+
+<body class="page-body flex justify-center items-center px-4">
+
+  <div class="form-container w-full max-w-xl p-8">
+    <h2 class="form-title text-center mb-6">Register</h2>
+
+    <form method="POST" class="space-y-5" novalidate>
+      <!-- Field Group -->
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" name="name" required>
+      </div>
+
+      <div class="form-group">
+        <label>Age</label>
+        <input type="number" name="age" required>
+      </div>
+
+      <div class="form-group">
+        <label>Gender</label>
+        <select name="gender" required>
+          <option value="">Select</option>
+          <option>Male</option>
+          <option>Female</option>
+          <option>Other</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Aadhar Number</label>
+        <input type="number" name="aadhar" required>
+      </div>
+
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="number" name="phone" required>
+      </div>
+
+      <div class="form-group">
+        <label>Address</label>
+        <input type="text" name="address" required>
+      </div>
+
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" name="username" required>
+      </div>
+
+      <div class="form-group">
+        <label>PIN</label>
+        <input type="password" name="pin" id="pinInput" required>
+        <p id="pinStrength" class="pin-strength"></p>
+      </div>
+
+      <div class="form-group">
+        <label>Skills You Can Teach</label>
+        <input type="text" name="teach_skills">
+      </div>
+
+      <div class="form-group">
+        <label>Skills You Want to Learn</label>
+        <input type="text" name="learn_skills">
+      </div>
+
+      <button type="submit" class="submit-btn w-full">Register</button>
+
+      <p class="login-link text-center">Already registered?
+        <a href="{{ url_for('client_login') }}">Login</a>
+      </p>
+    </form>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/client/register.js') }}"></script>
+</body>
+
+</html>

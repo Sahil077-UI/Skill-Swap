@@ -1,0 +1,193 @@
+/* === Base === */
+body.page-body {
+  background: linear-gradient(to bottom right, #f0f4f8, #dbeafe);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  min-height: 100vh;
+}
+
+/* === Form Container === */
+.form-container {
+  background-color: #ffffff;
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-container:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+}
+
+/* === Form Title === */
+.form-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #0077b6;
+}
+
+/* === Form Group === */
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #03045e;
+  margin-bottom: 0.4rem;
+  font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group select {
+  border: 1px solid #cbd5e0;
+  border-radius: 0.5rem;
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.2s;
+  outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #0077b6;
+  box-shadow: 0 0 0 3px rgba(0, 119, 182, 0.25);
+}
+
+/* === PIN Strength Display === */
+.pin-strength {
+  font-size: 0.8rem;
+  color: #888;
+  margin-top: 0.3rem;
+}
+
+/* === Submit Button === */
+.submit-btn {
+  background-color: #0077b6;
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  transition: background-color 0.3s ease, transform 0.2s;
+  border: none;
+  cursor: pointer;
+}
+
+.submit-btn:hover {
+  background-color: #023e8a;
+  transform: scale(1.03);
+}
+
+/* === Login Text === */
+.login-link {
+  font-size: 0.9rem;
+  color: #555;
+  margin-top: 1rem;
+}
+
+.login-link a {
+  color: #0077b6;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.login-link a:hover {
+  color: #023e8a;
+  text-decoration: underline;
+}
+
+/* === Focus Highlight === */
+.form-group input:focus,
+.form-group select:focus {
+  background-color: #f0f9ff;
+}
+
+/* === Smooth Transitions === */
+.form-group input,
+.form-group select,
+.submit-btn {
+  transition: all 0.2s ease-in-out;
+}
+
+/* === Input Placeholder Styling === */
+.form-group input::placeholder,
+.form-group select::placeholder {
+  color: #a0aec0;
+  font-style: italic;
+}
+
+/* === Hover Interactions for Inputs === */
+.form-group input:hover,
+.form-group select:hover {
+  background-color: #f9fafb;
+}
+
+/* === Section Divider (if needed later) === */
+.section-divider {
+  border-top: 2px dashed #90e0ef;
+  margin: 1.5rem 0;
+}
+
+/* === Optional Tooltip Styling === */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: help;
+}
+
+.tooltip .tooltip-text {
+  visibility: hidden;
+  background-color: #023e8a;
+  color: #fff;
+  text-align: center;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  position: absolute;
+  z-index: 10;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  width: max-content;
+  font-size: 0.8rem;
+}
+
+.tooltip:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* === Form Animation on Load === */
+.form-container {
+  animation: fadeUp 0.5s ease-out;
+}
+
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === Responsive Enhancements === */
+@media (max-width: 480px) {
+  .form-container {
+    padding: 1.5rem;
+  }
+
+  .form-title {
+    font-size: 1.5rem;
+  }
+
+  .submit-btn {
+    font-size: 0.95rem;
+  }
+}

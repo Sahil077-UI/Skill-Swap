@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chat with {{ target_user }}</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/messaging/chat.css') }}" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<!-- Main Layout -->
+
+<body class="main-body">
+  <div class="flex min-h-screen">
+
+    <!-- Main Chat Section -->
+    <main class="flex-1 p-10 overflow-y-auto">
+      <!-- Page Title -->
+      <div class="mb-6">
+        <h1 class="page-title">Chat with {{ target_user }}</h1>
+        <p class="page-subtitle">Conversation history below</p>
+      </div>
+
+      <!-- Chat History Box -->
+      <div id="chat-box" class="chat-box">
+        {% for msg in messages %}
+        <div class="message-block">
+          <p>
+            <strong class="sender-name">
+              {{ 'You' if msg.sender_username == current_user else target_user }}:
+            </strong>
+            {{ msg.message }}
+            <small class="timestamp">
+              {{ msg.timestamp.strftime('%H:%M') if msg.timestamp else '' }}
+            </small>
+            {% if msg.sender_username == current_user and msg.is_read %}
+            <span class="seen-indicator">✓ Seen</span>
+            {% endif %}
+          </p>
+        </div>
+        {% endfor %}
+      </div>
+
+      <!-- Video Call Button -->
+      <div class="flex justify-end mb-4">
+        <a href="{{ url_for('video_call', target_user=target_user) }}" class="video-call-btn">
+          Start Video Call
+        </a>
+      </div>
+
+      <!-- Message Form -->
+      <form method="POST" class="relative">
+        <textarea name="message" rows="3" class="message-textarea pr-32" placeholder="Type your message..."
+          required></textarea>
+        <button type="submit" class="btn absolute bottom-3 right-3">Send</button>
+      </form>
+    </main>
+  </div>
+
+  <!-- JS to scroll chat box to bottom -->
+  <script>
+    window.onload = () => {
+      const chatBox = document.getElementById("chat-box");
+      chatBox.scrollTop = chatBox.scrollHeight;
+    };
+    lucide.createIcons();
+  </script>
+</body>
+
+</html>

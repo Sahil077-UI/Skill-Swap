@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Client Info</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/client/client_info.css') }}">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="client-info-body main-body">
+    <div class="flex min-h-screen">
+        <!-- Mobile Header -->
+        <header
+            class="md:hidden flex justify-between items-center p-4 bg-white shadow z-50 w-full fixed top-0 left-0 right-0">
+            <div class="text-xl font-bold text-blue-900">SkillSync</div>
+            <button id="mobile-menu-toggle" class="focus:outline-none">
+                <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="2"
+                    viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </header>
+
+        <!-- Sidebar -->
+        <div id="mobile-sidebar"
+            class="fixed inset-0 z-40 bg-white w-64 h-screen transform -translate-x-full transition-transform duration-300 ease-in-out md:relative md:translate-x-0 md:block">
+            <aside class="w-64 px-6 py-8 sidebar">
+                <div class="flex items-center space-x-2 text-2xl font-bold brand-text mb-6">
+                    <svg class="w-6 h-6 brand-icon" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 20l-6-6h4V6h4v8h4l-6 6z" />
+                    </svg>
+                    <span>SkillSync</span>
+                </div>
+                <nav class="space-y-4">
+                    <a href="{{ url_for('client_profile') }}" class="nav-link">
+                        <i data-lucide="home" class="inline w-4 h-4 mr-2"></i> Home
+                    </a>
+                    <a href="{{ url_for('client_info') }}" class="nav-link active">
+                        <i data-lucide="info" class="inline w-4 h-4 mr-2"></i> Personal Info
+                    </a>
+                    <a href="{{ url_for('client_connections') }}" class="nav-link">
+                        <i data-lucide="users" class="inline w-4 h-4 mr-2"></i> Connections
+                    </a>
+                    <a href="{{ url_for('client_matches') }}" class="nav-link">
+                        <i data-lucide="link" class="inline w-4 h-4 mr-2"></i> Skill Matches
+                    </a>
+                    <a href="{{ url_for('client_requests') }}" class="nav-link">
+                        <i data-lucide="user-plus" class="inline w-4 h-4 mr-2"></i> Requests
+                    </a>
+                    <a href="{{ url_for('client_chat') }}" class="nav-link">
+                        <i data-lucide="message-square" class="inline w-4 h-4 mr-2"></i> Chats
+                    </a>
+                    <a href="{{ url_for('create_group') }}" class="nav-link">
+                        <i data-lucide="plus-square" class="inline w-4 h-4 mr-2"></i> Create Group
+                    </a>
+                    <a href="{{ url_for('global_chat') }}" class="nav-link">
+                        <i data-lucide="globe" class="inline w-4 h-4 mr-2"></i> Community Chat
+                    </a>
+                </nav>
+            </aside>
+        </div>>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-8 mt-16 md:mt-0 overflow-y-auto">
+            <div class="info-container">
+
+                <h2 class="info-title">Personal Information</h2>
+
+                <div class="flex flex-col md:flex-row items-center gap-6 profile-photo-block">
+                    <!-- Profile Preview -->
+                    <div class="photo-preview">
+                        {% if client.profile_photo %}
+                        <img src="{{ url_for('static', filename='uploads/profile_photos/' ~ client.profile_photo) }}"
+                            alt="Profile Photo" class="rounded-full w-32 h-32 object-cover border" />
+                        {% else %}
+                        <div
+                            class="profile-placeholder rounded-full w-32 h-32 flex items-center justify-center text-white text-5xl font-bold">
+                            {{ client.name[0]|upper }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Upload & Remove -->
+                    <div class="flex flex-col gap-3">
+                        <form method="POST" action="{{ url_for('upload_profile_photo') }}" enctype="multipart/form-data"
+                            class="flex flex-col gap-2">
+                            <div class="custom-file-upload">
+                                <label for="profile_photo" class="file-label">
+                                    <span>Choose File</span>
+                                </label>
+                                <input type="file" id="profile_photo" name="profile_photo" accept="image/*"
+                                    class="file-input-hidden" />
+                            </div>
+                            <button type="submit" id="upload-btn" class="upload-btn">Upload Photo</button>
+                        </form>
+
+                        <!-- Remove Button -->
+                        {% if client.profile_photo %}
+                        <form id="remove-form" method="POST" action="{{ url_for('remove_profile_photo') }}"></form>
+                        <button type="submit" id="remove-btn" class="remove-btn">Remove Photo</button>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="client-details mt-6 space-y-2">
+                    <p><strong>Name:</strong> {{ client.name }}</p>
+                    <p><strong>Age:</strong> {{ client.age }}</p>
+                    <p><strong>Gender:</strong> {{ client.gender }}</p>
+                    <p><strong>Phone:</strong> {{ client.ph_no }}</p>
+                    <p><strong>Address:</strong> {{ client.address }}</p>
+                    <p><strong>Username:</strong> {{ client.username }}</p>
+                    <p><strong>Teaching Skills:</strong> {{ client.teach_skills }}</p>
+                    <p><strong>Learning Skills:</strong> {{ client.learn_skills }}</p>
+                </div>
+
+                <div class="edit-btn-wrap">
+                    <a href="{{ url_for('client_edit_profile') }}" class="edit-btn">Edit Info</a>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Upload Error Modal -->
+    <div id="upload-modal"
+        class="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50 transition-opacity duration-300 hidden">
+        <div id="upload-modal-box"
+            class="bg-white rounded-lg shadow-lg p-6 w-80 text-center transform scale-95 opacity-0 transition-all duration-300">
+            <h3 class="text-lg font-semibold text-red-600 mb-2">No file selected!</h3>
+            <p class="text-sm text-gray-700 mb-4">Please choose a profile photo before uploading.</p>
+            <button id="close-upload-modal" class="btn">Okay</button>
+        </div>
+    </div>
+
+    <!-- Confirm Remove Modal -->
+    <!-- Confirm Remove Modal -->
+    <div id="remove-modal"
+        class="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50 hidden transition-opacity duration-300">
+        <div id="remove-modal-box"
+            class="bg-white rounded-lg shadow-lg p-6 w-80 text-center transform scale-95 opacity-0 transition-all duration-300">
+            <h3 class="text-lg font-semibold text-red-600 mb-2">Confirm Removal</h3>
+            <p class="text-sm text-gray-700 mb-4">Are you sure you want to remove your profile photo?</p>
+            <div class="flex justify-center gap-4">
+                <button id="cancel-remove" class="btn">Cancel</button>
+                <button id="confirm-remove" class="btn-danger">Remove</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+    </script>
+    <script src="{{ url_for('static', filename='js/client/client_info.js') }}"></script>
+</body>
+
+</html>

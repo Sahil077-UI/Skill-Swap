@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Client Chat</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/messaging/client_chat.css') }}" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="chat-body flex">
+    <!-- Mobile Menu Button -->
+    <div class="md:hidden fixed top-4 left-4 z-50">
+        <button id="mobile-menu-toggle" class="bg-white p-2 rounded shadow">
+            <i data-lucide="menu" class="w-6 h-6 text-black"></i>
+        </button>
+    </div>
+
+    <!-- Sidebar -->
+    <aside id="mobile-sidebar"
+        class="sidebar w-64 px-6 py-8 space-y-6 transform transition-transform duration-300 ease-in-out -translate-x-full fixed inset-y-0 left-0 md:translate-x-0 md:relative md:block z-40 bg-white border-r">
+        <div class="flex items-center justify-between md:block">
+            <div class="flex items-center space-x-2 text-2xl font-bold brand-text">
+                <svg class="w-6 h-6 brand-icon" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 20l-6-6h4V6h4v8h4l-6 6z" />
+                </svg>
+                <span>SkillSync</span>
+            </div>
+        </div>
+
+        <nav class="space-y-4">
+            <a href="{{ url_for('client_profile') }}" class="nav-link">
+                <i data-lucide="home" class="inline w-4 h-4 mr-2"></i> Home
+            </a>
+            <a href="{{ url_for('client_info') }}" class="nav-link">
+                <i data-lucide="info" class="inline w-4 h-4 mr-2"></i> Personal Info
+            </a>
+            <a href="{{ url_for('client_connections') }}" class="nav-link">
+                <i data-lucide="users" class="inline w-4 h-4 mr-2"></i> Connections
+            </a>
+            <a href="{{ url_for('client_matches') }}" class="nav-link">
+                <i data-lucide="link" class="inline w-4 h-4 mr-2"></i> Skill Matches
+            </a>
+            <a href="{{ url_for('client_requests') }}" class="nav-link">
+                <i data-lucide="user-plus" class="inline w-4 h-4 mr-2"></i> Requests
+            </a>
+            <a href="{{ url_for('client_chat') }}" class="nav-link active">
+                <i data-lucide="message-square" class="inline w-4 h-4 mr-2"></i> Chats
+            </a>
+            <a href="{{ url_for('create_group') }}" class="nav-link">
+                <i data-lucide="plus-square" class="inline w-4 h-4 mr-2"></i> Create Group
+            </a>
+            <a href="{{ url_for('global_chat') }}" class="nav-link">
+                <i data-lucide="globe" class="inline w-4 h-4 mr-2"></i> Community Chat
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-6 md:p-10">
+        <div class="mb-8">
+            <h1 class="dashboard-title">Chats</h1>
+            <p class="dashboard-subtitle">Chat with your Connections</p>
+        </div>
+        <div class="chat-wrapper space-y-10">
+            <!-- Personal Chats -->
+            <section>
+                <h2 class="section-title mb-4">Personal Chats</h2>
+                {% if personal_chats %}
+                <div class="space-y-4">
+                    {% for user in personal_chats %}
+                    <a href="{{ url_for('chat_with_user', username=user.username) }}"
+                        class="chat-card flex items-center gap-4 p-4 relative">
+                        {% if user.profile_photo %}
+                        <img src="{{ url_for('static', filename='uploads/profile_photos/' ~ user.profile_photo) }}"
+                            alt="Profile Photo" class="avatar-img" />
+                        {% else %}
+                        <div class="fallback-avatar">
+                            {{ user.name[0]|upper }}
+                        </div>
+                        {% endif %}
+
+                        <div>
+                            <p class="chat-username">{{ user.name }}</p>
+                            <p class="chat-handle">@{{ user.username }}</p>
+                        </div>
+
+                        {% if user.unread_count > 0 %}
+                        <span class="unread-badge">
+                            {{ user.unread_count }}
+                        </span>
+                        {% endif %}
+                    </a>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="no-chat-msg">You have no personal chats yet.</p>
+                {% endif %}
+            </section>
+
+            <!-- Group Chats -->
+            <section>
+                <h2 class="section-title mb-4">Group Chats</h2>
+                {% if group_chats %}
+                <div class="space-y-4">
+                    {% for group in group_chats %}
+                    <a href="{{ url_for('view_group', group_id=group.id) }}"
+                        class="chat-card flex items-center gap-4 p-4">
+                        <div class="group-icon">
+                            {{ group.name[0]|upper }}
+                        </div>
+                        <div>
+                            <p class="chat-groupname">{{ group.name }}</p>
+                            <p class="chat-admin">Admin: {{ group.admin_username }}</p>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="no-chat-msg">You're not part of any group chats.</p>
+                {% endif %}
+            </section>
+
+        </div>
+    </main>
+
+    <script>
+        lucide.createIcons();
+    </script>
+    <script src="{{ url_for('static', filename='js/messaging/client_chat.js') }}"></script>
+</body>
+
+</html>

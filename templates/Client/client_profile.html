@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Client Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/client/profile.css') }}" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body id="main-body" class="main-body">
+  <div class="flex min-h-screen">
+    <!-- Mobile Header -->
+    <header
+      class="md:hidden flex justify-between items-center p-4 bg-white shadow z-50 w-full fixed top-0 left-0 right-0">
+      <div class="text-xl font-bold text-blue-900">SkillSync</div>
+      <button id="mobile-menu-toggle" class="focus:outline-none">
+        <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </header>
+
+    <!-- Sidebar -->
+    <div id="mobile-sidebar"
+      class="fixed inset-0 z-40 bg-white w-64 h-screen transform -translate-x-full transition-transform duration-300 ease-in-out md:relative md:translate-x-0 md:block">
+      <aside class="w-64 px-6 py-8 space-y-6 sidebar">
+        <!-- Branding -->
+        <div class="flex items-center space-x-2 text-2xl font-bold brand-text">
+          <svg class="w-6 h-6 brand-icon" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10 20l-6-6h4V6h4v8h4l-6 6z" />
+          </svg>
+          <span>SkillSync</span>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="space-y-4">
+          <a href="{{ url_for('client_profile') }}" class="nav-link active">
+            <i data-lucide="home" class="inline w-4 h-4 mr-2"></i> Home
+          </a>
+          <a href="{{ url_for('client_info') }}" class="nav-link">
+            <i data-lucide="info" class="inline w-4 h-4 mr-2"></i> Personal Info
+          </a>
+          <a href="{{ url_for('client_connections') }}" class="nav-link">
+            <i data-lucide="users" class="inline w-4 h-4 mr-2"></i> Connections
+          </a>
+          <a href="{{ url_for('client_matches') }}" class="nav-link">
+            <i data-lucide="link" class="inline w-4 h-4 mr-2"></i> Skill Matches
+          </a>
+          <a href="{{ url_for('client_requests') }}" class="nav-link">
+            <i data-lucide="user-plus" class="inline w-4 h-4 mr-2"></i> Requests
+          </a>
+          <a href="{{ url_for('client_chat') }}" class="nav-link">
+            <i data-lucide="message-square" class="inline w-4 h-4 mr-2"></i> Chats
+          </a>
+          <a href="{{ url_for('create_group') }}" class="nav-link">
+            <i data-lucide="plus-square" class="inline w-4 h-4 mr-2"></i> Create Group
+          </a>
+          <a href="{{ url_for('global_chat') }}" class="nav-link">
+            <i data-lucide="globe" class="inline w-4 h-4 mr-2"></i> Community Chat
+          </a>
+        </nav>
+      </aside>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-8 mt-16 md:mt-0 overflow-y-auto">
+      <div id="client-info" data-username="{{ client.username }}"></div>
+
+      <!-- Header -->
+      <div class="flex justify-between items-center mb-6">
+        <div>
+          <h1 class="dashboard-title">Welcome, {{ client.name }}</h1>
+          <p class="dashboard-subtitle">Overview of your dashboard</p>
+        </div>
+
+        <!-- Profile Dropdown -->
+        <div class="relative">
+          <!-- Trigger Button -->
+          <button id="user-dropdown-toggle" class="flex items-center space-x-2 user-info-box focus:outline-none">
+            {% if client.profile_photo %}
+            <img src="{{ url_for('static', filename='uploads/profile_photos/' ~ client.profile_photo) }}"
+              alt="Profile Photo" class="user-avatar object-cover rounded-full border w-10 h-10" />
+            {% else %}
+            <div
+              class="user-initial-avatar w-10 h-10 rounded-full flex items-center justify-center text-white text-sm font-semibold bg-blue-600">
+              {{ client.name[0]|upper }}
+            </div>
+            {% endif %}
+            <div class="text-sm leading-tight hidden sm:block">
+              <p class="username-label">@{{ client.username|capitalize }}</p>
+            </div>
+            <i id="dropdown-chevron" data-lucide="chevron-down" class="w-4 h-4 text-gray-600 transition-transform"></i>
+          </button>
+
+          <!-- Smooth Dropdown -->
+          <div id="user-dropdown"
+            class="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg z-50 dropdown-content">
+            <a href="{{ url_for('client_blocked_users') }}"
+              class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center">
+              <i data-lucide="shield-off" class="w-4 h-4 mr-2"></i> Blocked Users
+            </a>
+            <a href="{{ url_for('client_support') }}"
+              class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center">
+              <i data-lucide="life-buoy" class="w-4 h-4 mr-2"></i> Support
+            </a>
+            <a href="javascript:void(0)" id="change-password-trigger"
+              class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center">
+              <i data-lucide="key" class="w-4 h-4 mr-2"></i> Change Password
+            </a>
+            <a href="{{ url_for('client_logout') }}"
+              class="logout-link block px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center">
+              <i data-lucide="log-out" class="w-4 h-4 mr-2 text-red-600"></i> Logout
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+        <div class="card border-accent-1 hover:scale-105 transition-transform cursor-pointer">
+          <p class="card-label">Connections</p>
+          <p class="card-value">{{ connections|length }}</p>
+        </div>
+        <div class="card border-accent-2 hover:scale-105 transition-transform cursor-pointer">
+          <p class="card-label">Groups Joined</p>
+          <p class="card-value">{{ groups|length }}</p>
+        </div>
+        <div class="card border-accent-3 hover:scale-105 transition-transform cursor-pointer">
+          <p class="card-label">Unread Messages</p>
+          <p class="card-value">{{ unread_counts|length }}</p>
+        </div>
+        <div class="card border-accent-4 hover:scale-105 transition-transform cursor-pointer">
+          <p class="card-label">Skills to Teach</p>
+          <p class="card-value">{{ client.teach_skills.split(',')|length }}</p>
+        </div>
+      </div>
+
+      <!-- Calendar + To-Do Row -->
+      <div class="flex flex-col md:flex-row gap-6 mb-10">
+        <!-- To-Do List -->
+        <div class="section-box w-full md:w-1/2 animate-fade-in">
+          <h2 class="section-title">To-Do List</h2>
+
+          <div class="flex items-center gap-2 mb-4">
+            <input type="text" id="todo-input" placeholder="Add a new task..."
+              class="w-full pl-2 py-2 rounded-lg border border-gray-300 bg-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all" />
+            <button id="todo-add" class="btn">Add</button>
+          </div>
+
+          <ul id="todo-list" class="text-sm text-gray-700 rounded-lg"></ul>
+        </div>
+
+        <!-- Calendar Section -->
+        <div class="section-box w-full md:w-1/2 animate-fade-in">
+          <h2 class="section-title">This Month</h2>
+          <div id="calendar" class="grid grid-cols-7 gap-2 text-center text-sm text-gray-700"></div>
+        </div>
+      </div>
+
+      <!-- Calendar Reminder Modal -->
+      <div id="reminder-modal"
+        class="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center hidden z-50">
+        <div class="bg-white rounded-lg shadow-lg p-6 w-80">
+          <h3 class="text-lg font-semibold mb-2">Add Reminder for <span id="selected-date"></span></h3>
+          <input type="text" id="reminder-text" class="w-full border p-2 rounded mb-3"
+            placeholder="Enter reminder..." />
+          <div class="flex justify-end space-x-2">
+            <button id="cancel-reminder" class="btn-danger">Cancel</button>
+            <button id="save-reminder" class="btn">Save</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Password Change Modal -->
+      <div id="password-modal"
+        class="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center hidden z-50">
+        <div class="bg-white rounded-lg shadow-lg p-6 w-96">
+          <h3 class="text-lg font-semibold mb-3 text-blue-900">Change Password</h3>
+          <input type="password" id="current-password" placeholder="Current Password"
+            class="w-full border p-2 rounded mb-2" />
+          <input type="password" id="new-password" placeholder="New Password" class="w-full border p-2 rounded mb-2" />
+          <input type="password" id="confirm-password" placeholder="Confirm New Password"
+            class="w-full border p-2 rounded mb-4" />
+          <div id="password-error" class="text-sm text-red-600 mb-2 hidden"></div>
+          <div class="flex justify-end gap-2">
+            <button id="cancel-password" class="btn-danger">Cancel</button>
+            <button id="submit-password" class="btn">Update</button>
+          </div>
+        </div>
+      </div>
+      <div id="password-success" class="fixed bottom-5 right-5 hidden px-4 py-2 rounded shadow-lg text-white text-sm z-50"></div>
+    </main>
+  </div>
+  <script>
+    lucide.createIcons();
+  </script>
+  <script src="{{ url_for('static', filename='js/client/profile.js') }}"></script>
+</body>
+
+</html>

@@ -1,0 +1,83 @@
+/* === Base === */
+body.edit-client-body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f4f8;
+    color: #333;
+    scroll-behavior: smooth;
+}
+
+.edit-title {
+    color: #03045e;
+    font-size: 1.75rem;
+}
+
+/* === Form Labels === */
+.label {
+    display: block;
+    font-weight: 600;
+    color: #03045e;
+    margin-bottom: 0.3rem;
+}
+
+/* === Input Fields === */
+.input-field {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    background-color: #ffffff;
+    transition: border-color 0.2s ease;
+    font-size: 0.95rem;
+}
+
+.input-field:focus {
+    border-color: #00b4d8;
+    outline: none;
+}
+
+/* === Buttons === */
+.btn {
+  background-color: #0077b6;
+  color: #ffffff;
+  font-weight: 600;
+  padding: 0.55rem 1.25rem;
+  border-radius: 0.5rem;
+  font-size: 0.95rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn:hover {
+  background-color: #023e8a;
+  transform: scale(1.05);
+}
+
+/* === Secondary Button (e.g. Back) === */
+.btn-secondary {
+  background-color: #e2e8f0;
+  color: #03045e;
+}
+
+.btn-secondary:hover {
+  background-color: #cbd5e1;
+  transform: scale(1.05);
+}
+
+/* === Responsive Adjustments === */
+@media (max-width: 768px) {
+    .edit-title {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+
+    .input-field {
+        font-size: 0.9rem;
+    }
+
+    .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}

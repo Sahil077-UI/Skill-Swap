@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Add New Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin/add_admin.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="admin-body flex overflow-x-hidden">
+    <aside class="w-64 h-screen p-6 sidebar fixed top-0 left-0">
+        <div class="flex items-center space-x-2 text-2xl font-bold brand mb-10">
+            <i data-lucide="layout-dashboard" class="w-6 h-6"></i>
+            <span>SkillAdmin</span>
+        </div>
+
+        <nav class="space-y-4">
+            <a href="{{ url_for('admin_dashboard') }}" class="nav-link"><i data-lucide="home" class="icon-label"></i>
+                Dashboard</a>
+            <a href="{{ url_for('admin_clients') }}" class="nav-link">
+                <i data-lucide="users" class="icon-label"></i> Clients
+            </a>
+            <a href="{{ url_for('client_status') }}" class="nav-link">
+                <i data-lucide="user-check" class="icon-label"></i> Client Status
+            </a>
+            <a href="{{ url_for('recent_client_activities') }}" class="nav-link">
+                <i data-lucide="activity" class="icon-label"></i>
+                Client Logs
+            </a>
+            <a href="{{ url_for('admin_support') }}" class="nav-link"><i data-lucide="life-buoy" class="icon-label"></i>
+                Support</a>
+            {% if session.admin_role == 'administrator' %}
+            <a href="{{ url_for('add_new_admin') }}" class="nav-link active"><i data-lucide="user-plus"
+                    class="icon-label"></i>
+                Add Admin</a>
+            <a href="{{ url_for('admin_logs') }}" class="nav-link"><i data-lucide="file-text" class="icon-label"></i>
+                Admin Logs</a>
+            {% endif %}
+            <a href="{{ url_for('admin_logout') }}" class="nav-link logout"><i data-lucide="log-out"
+                    class="icon-label"></i> Logout</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="ml-64 flex-1 p-10">
+        <section class="form-wrapper max-w-xl mx-auto bg-white rounded-2xl shadow-md p-10 border-l-4 border-blue-600">
+            <h1 class="form-title text-center text-2xl font-bold text-blue-900 mb-6">Add New Admin</h1>
+
+            <form method="POST" action="{{ url_for('add_new_admin') }}" class="space-y-6">
+                <!-- Username -->
+                <div class="form-group">
+                    <label for="username" class="form-label block font-medium text-blue-900 mb-1">Username</label>
+                    <input type="text" id="username" name="username" required class="form-input input-field" />
+                </div>
+
+                <!-- PIN -->
+                <div class="form-group relative">
+                    <label for="pin" class="form-label block font-medium text-blue-900 mb-1">Password</label>
+
+                    <input type="password" id="pin" name="pin" required class="form-input input-field pr-12 h-11" />
+
+                    <button type="button" id="togglePin" class="pin-toggle">
+                        <i data-lucide="eye" class="w-5 h-5"></i>
+                    </button>
+
+                </div>
+
+
+                <!-- Submit -->
+                <button type="submit" class="btn w-full">Add Admin</button>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        lucide.createIcons();
+    </script>
+    <script src="{{ url_for('static', filename='js/admin/add_admin.js') }}"></script>
+</body>
+
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Support Chat</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/messaging/client_support.css') }}" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body id="main-body" class="main-body bg-gray-100 min-h-screen overflow-hidden">
+
+  <!-- Header -->
+  <header class="w-full bg-white shadow px-6 py-4 flex justify-between items-center h-16">
+    <h1 class="text-xl font-bold text-blue-900">SkillSync - Support</h1>
+    <a href="{{ url_for('client_profile') }}" class="text-sm back-link">Back to Profile</a>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-4xl mx-auto p-6 space-y-6 flex flex-col h-[calc(100vh-4rem)]">
+
+    <!-- Title Section -->
+    <div>
+      <h2 class="dashboard-title">Support Chat</h2>
+      <p class="dashboard-subtitle">Talk to our support team</p>
+    </div>
+
+    <!-- Chat Box -->
+    <div class="section-box flex-1 overflow-y-auto space-y-3">
+      {% for msg in messages %}
+      <p>
+        <strong>{{ msg.sender }}:</strong> {{ msg.message }}
+        <small class="timestamp">({{ msg.timestamp }})</small>
+      </p>
+      {% endfor %}
+    </div>
+
+    <!-- Message Form -->
+    <form method="POST" class="space-y-2">
+      <textarea name="message" required placeholder="Type your message..."
+        class="textarea w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-400"></textarea>
+      <div class="flex justify-end">
+        <button type="submit" class="btn">
+          <i data-lucide="send" class="w-4 h-4 mr-1"></i> Send
+        </button>
+      </div>
+    </form>
+
+  </main>
+
+  <script>
+    lucide.createIcons();
+  </script>
+  <script src="{{ url_for('static', filename='js/messaging/client_support.js') }}"></script>
+</body>
+
+</html>

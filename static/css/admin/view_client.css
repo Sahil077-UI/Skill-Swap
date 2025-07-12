@@ -1,0 +1,97 @@
+/* === Base === */
+body.view-client-body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to bottom right, #f0f4f8, #dbeafe);
+  color: #333;
+  padding: 2rem;
+}
+
+/* === Container === */
+.container {
+  background-color: #ffffff;
+}
+
+/* === Title === */
+.client-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #03045e;
+}
+
+/* === List === */
+.client-info li {
+  font-size: 1rem;
+  background-color: #f1f5f9;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-left: 4px solid #00b4d8;
+  transition: background-color 0.3s ease;
+}
+
+.client-info li:hover {
+  background-color: #e0f7fa;
+}
+
+.label {
+  font-weight: 600;
+  color: #0077b6;
+}
+
+/* === Back Button === */
+.back-btn {
+  display: inline-block;
+  background-color: #0077b6;
+  color: #ffffff;
+  font-weight: 600;
+  padding: 0.5rem 1.25rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.back-btn:hover {
+  background-color: #023e8a;
+  transform: scale(1.05);
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.icon {
+  width: 1.2rem;
+  height: 1.2rem;
+  color: #0077b6;
+  flex-shrink: 0;
+}
+
+.client-info li {
+  background-color: #f1f5f9;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  border-left: 4px solid #00b4d8;
+  transition: background-color 0.3s ease;
+}
+
+.client-info li:hover {
+  background-color: #e0f7fa;
+}
+
+.label {
+  font-weight: 600;
+  color: #0077b6;
+  margin-right: 0.25rem;
+}
+
+/* === Responsive === */
+@media (max-width: 640px) {
+  .client-info li {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
