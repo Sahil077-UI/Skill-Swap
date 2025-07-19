@@ -1,3 +1,6 @@
+import eventlet
+eventlet.monkey_patch() 
+
 from flask import Flask
 from backend.client.client import ClientPanel
 from backend.admin.admin import AdminPanel
